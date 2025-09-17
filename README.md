@@ -23,10 +23,10 @@ Using `fail2ban` to protect against brute force attacks with a simple local conf
 
 #### Basic Firewall
 
-Using ufw to set up a basic firewall ruleset (allow ssh, http, https) + Kubernetes ports:
+Using ufw to set up a basic firewall ruleset (allow ssh, http, https). Do not allow Kubernetes ports from outside but use ssh port forwarding instead.
 
 ```bash
-sudo ufw allow 6443/tcp #apiserver, no need for pods/services rules since single node
+sudo ufw delete allow 6443/tcp # k3s apiserver, use ssh port forwarding instead
 ```
 
 ### Install other dependencies for k3s setup
@@ -45,5 +45,16 @@ sudo k3s kubectl get nodes
 We can also check if our `ufw` rules are working by curl-ing the apiserver port from outside:
 
 ```bash
+# With ssh port forwarding ON + k3s.yaml scp-ed locally
 curl -vk https://<your_vps_ip>:6443 # We should get a 401
+
+kubectl get nodes # Should work
 ```
+
+## Post Install
+
+TODO
+
+## Apps
+
+TODO
