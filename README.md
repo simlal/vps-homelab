@@ -1,6 +1,6 @@
-# vps-homelab-k8s
+# vps-homelab
 
-Personal Kubernetes homelab sandbox running on a single VPS.
+Personal homelab sandbox running on a VPS.
 
 This README is mostly personal notes as a reminder for myself if I need to set up a new VPS + k3s cluster.
 
@@ -23,37 +23,36 @@ Using `fail2ban` to protect against brute force attacks with a simple local conf
 
 #### Basic Firewall
 
-Using ufw to set up a basic firewall ruleset (allow ssh, http, https). Do not allow Kubernetes ports from outside but use ssh port forwarding instead.
+Using ufw to set up a basic firewall ruleset (allow ssh, http, https).
 
 ```bash
-sudo ufw delete allow 6443/tcp # k3s apiserver, use ssh port forwarding instead
+# Only allow http, https and our custom ssh port
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+sudo ufw allow $PORT_NUMBER/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
 ```
 
-### Install other dependencies for k3s setup
+### Install docker compose (since everything is containerized)
 
-Ubuntu 25.04 comes already with `htop`, `curl`, `ufw`, `fail2ban`, `git`, `vim`. No need for dotfiles, just scp your .vimrc + install `yazi` for good navigation leveraging snap.
+1. Install docker engine, cli and compose plugin, i.e. : <https://docs.docker.com/engine/install/ubuntu/>
+2. Verify the docker service is running `sudo systemctl status docker`
+3. Add user to docker group `sudo usermod -aG docker $USER`
+4. Test docker installation with `docker run hello-world`
 
-Just install k3s with the isntall script (single node setup):
+**Other useful tools:**
 
-```bash
-curl -sfL https://get.k3s.io | sh -
+- lazydocker
+-
 
-# Check if OK
-sudo k3s kubectl get nodes
-```
+## Structure
 
-We can also check if our `ufw` rules are working by curl-ing the apiserver port from outside:
-
-```bash
-# With ssh port forwarding ON + k3s.yaml scp-ed locally
-curl -vk https://<your_vps_ip>:6443 # We should get a 401
-
-kubectl get nodes # Should work
-```
-
-## Post Install
-
-TODO
+- Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share. Stored in `~/infra/`
+- Other apps in `~/apps/`. Will refer to caddy network for reverse proxying.
+- Tools in `~/tools/`
+- etc.
 
 ## Apps
 
