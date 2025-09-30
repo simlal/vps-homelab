@@ -1,11 +1,13 @@
-# Port 80: healthcheck + redirect
+# 
 :80 {
-    respond /health "OK" 200
+    redir https://simlal.dev{uri}
+}
+
+www.simlal.dev {
     redir https://simlal.dev{uri} permanent
 }
 
-# Main site (auto HTTPS via Caddy)
 simlal.dev {
-    respond /health "HEALTHY" 200
+    respond /health "OK" 200
     respond "Hello, world!"
 }
