@@ -2,3 +2,9 @@
     respond /health "OK" 200
     respond "Hello, world!"
 }
+
+# test for http/https certs let's encrypt
+simlal.dev, www.simlal.dev {
+    respond /health "HEALTHY" 200
+    respond "Hello, world!"
+}
