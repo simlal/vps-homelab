@@ -1,10 +1,11 @@
+# Port 80: healthcheck + redirect
 :80 {
     respond /health "OK" 200
-    respond "Hello, world!"
+    redir https://simlal.dev{uri} permanent
 }
 
-# test for http/https certs let's encrypt
-simlal.dev, www.simlal.dev {
+# Main site (auto HTTPS via Caddy)
+simlal.dev {
     respond /health "HEALTHY" 200
     respond "Hello, world!"
 }
