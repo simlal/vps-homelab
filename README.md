@@ -2,7 +2,7 @@
 
 Personal homelab sandbox running on a VPS.
 
-This README is mostly personal notes as a reminder for myself if I need to set up a new VPS + k3s cluster.
+This README is mostly personal notes as a reminder for myself if I need to set up a new VPS with caddy as a reverse proxy and dockerized apps.
 
 ## Prerequisites
 
@@ -42,17 +42,59 @@ sudo ufw allow 443/tcp
 3. Add user to docker group `sudo usermod -aG docker $USER`
 4. Test docker installation with `docker run hello-world`
 
-**Other useful tools:**
+**Other useful tools for a good terminal exp:**
 
 - lazydocker
--
+- atuin
+- starship
+- tmux
+
+### Root domain and CloudFlare DNS
+
+1. Buy a domain from any registrar (CloudFlare directly OK) (Optional: Setup nameservers)
+2. Add `A` record to point to VPS IP (no CloudFlare proxy, just DNS).
+3. Add `CNAME` record for `www` to point to root domain (no CloudFlare proxy, just DNS).
 
 ## Structure
 
-- Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share. Stored in `~/infra/`
+- Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share. Stored in `~/infra/caddy/`
 - Other apps in `~/apps/`. Will refer to caddy network for reverse proxying.
 - Tools in `~/tools/`
 - etc.
+
+### Caddy healthcheck and restart
+
+Docker compose file for caddy with a healthcheck and restart policy in `~/infra/caddy/docker-compose.yml`
+
+```yaml
+# Since caddy img does not have curl
+healthcheck:
+  test: ["CMD-SHELL", "wget -q -O - http://localhost/health | grep -q 'OK'"]
+```
+
+```caddy
+# Port 80: healthcheck + redirect
+:80 {
+    respond /health "OK" 200
+}
+```
+
+Verify its working outside the vps with `curl http://simlal.dev/health`
+
+### Redirect http and www
+
+Use simple redirects in caddyfile:
+
+```caddy
+:80 {
+    respond /health "OK" 200
+    redir https://simlal.dev{uri} permanent
+}
+simlal.dev {
+    respond /health "HEALTHY" 200
+    respond "Hello, world!"
+}
+```
 
 ## Apps
 
