@@ -1,0 +1,9 @@
+# Caddy runtime state
+infra/caddy/caddy_data/
+infra/caddy/caddy_config/
+
+# Logs
+*.log
+
+# Env files
+*.env
