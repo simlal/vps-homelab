@@ -1,3 +1,4 @@
-localhost {
-	respond "Hello, world!"
+:80 {
+    respond /health "OK" 200
+    respond "Hello, world!"
 }

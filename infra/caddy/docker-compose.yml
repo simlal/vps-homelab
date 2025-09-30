@@ -13,8 +13,8 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost:2019/config"]
-      interval: 30s
+      test: ["CMD-SHELL", "wget -q -O - http://localhost/health | grep -q 'OK'"]
+      interval: 3s
       timeout: 5s
       retries: 3
     security_opt:
