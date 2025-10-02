@@ -21,6 +21,8 @@ services:
       - no-new-privileges:true
     tmpfs:
       - /tmp
+    env_file:
+      - .env
     networks:
       - caddy_net
 
