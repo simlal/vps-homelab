@@ -5,17 +5,26 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
-
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: /home/simlal/vps-homelab
+
 jobs:
-  build:
+  deploy:
     runs-on: [self-hosted, linux]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: test hello world
+      - name: Build images
         run: |
-          echo Hello...
-          echo World!
+          echo "Building containers"
+          docker compose build
+
+      - name: Deploy infra (caddy + monitoring)
+        run: docker compose up -d
+
+      - name: Verify services
+        run: docker ps
