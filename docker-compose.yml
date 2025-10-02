@@ -21,7 +21,7 @@ services:
       - no-new-privileges:true
     tmpfs:
       - /tmp
-      environment:
+    environment:
       - CADDY_EMAIL=${CADDY_EMAIL}
     networks:
       - caddy_net
