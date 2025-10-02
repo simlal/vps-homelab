@@ -7,24 +7,19 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: /home/simlal/vps-homelab
-
 jobs:
-  deploy:
+  build-deploy:
     runs-on: [self-hosted, linux]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build images
+      - name: Sync repo into live dir
         run: |
-          echo "Building containers"
-          docker compose build
+          echo Synching temp runner git checkout @ ref to '~/infra' dir...
+          rsync -a --delete ${{ github.workspace }}/ /home/simlal/infra/
 
-      - name: Deploy infra (caddy + monitoring)
-        run: docker compose up -d
-
-      - name: Verify services
-        run: docker ps
+      - name: Deploy infra
+        run: |
+          cd /home/simlal/infra
+          docker compose up -d
