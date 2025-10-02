@@ -1,7 +1,10 @@
-# Admin API
-:2019 {
-    respond /health "OK" 200
-  }
+{
+  # ACME account email for certificate notices
+  email vps@simlal.dev
+
+  # Enable admin API for health checks and safe reloads
+  admin :2019
+}
 
 #
 :80 {
