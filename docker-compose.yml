@@ -13,8 +13,12 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O - http://localhost/health | grep -q 'OK'"]
-      interval: 30s
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q -O - http://localhost:2019/health | grep -q 'OK'",
+        ]
+      interval: 3s
       timeout: 5s
       retries: 3
     security_opt:

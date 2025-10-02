@@ -1,4 +1,9 @@
-# 
+# Admin API
+:2019 {
+    respond /health "OK" 200
+  }
+
+#
 :80 {
     redir https://simlal.dev{uri}
 }
@@ -8,6 +13,6 @@ www.simlal.dev {
 }
 
 simlal.dev {
-    respond /health "OK" 200
+    respond /health "HEALTHY" 200
     respond "Hello, world!"
 }
