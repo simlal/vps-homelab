@@ -20,8 +20,11 @@ jobs:
           rsync -a --delete ${{ github.workspace }}/ /home/simlal/infra/
 
       - name: Deploy infra
+        env:
+          CADDY_EMAIL: ${{ secrets.CADDY_EMAIL }}
         run: |
           cd /home/simlal/infra
           docker compose up -d
+
       - name: Healthcheck caddy
         run: docker exec caddy wget -qS -O /dev/null http://localhost:2019/config
