@@ -30,4 +30,4 @@ jobs:
 
       - name: Healthcheck caddy
         working-directory: /home/simlal/infra
-        run: docker compose exec -T caddy wget -qS -O /dev/null http://localhost:2019/config
+        run: docker compose exec -T -w / caddy wget -qS -O /dev/null http://localhost/health

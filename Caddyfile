@@ -1,8 +1,6 @@
 {
   # ACME account email for certificate notices
   email {env.CADDY_EMAIL}
-
-  # Enable admin API for health checks and safe reloads
   admin :2019
 }
 
