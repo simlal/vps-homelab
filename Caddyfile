@@ -5,7 +5,10 @@
 }
 
 :80 {
-    respond /health "OK" 200
+    @health {
+        path /health
+    }
+    respond @health "OK" 200
     redir https://simlal.dev{uri}
 }
 
