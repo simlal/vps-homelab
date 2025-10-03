@@ -107,20 +107,17 @@ docker network create caddy_net
 
 #### admin & healthcheck
 
-Use caddy admin endpoint for healthcheck and restart if needed.
+Simple healthcheck endpoint to monitor caddy status.
 
 ```yaml
-# With admin enabled
 healthcheck:
-  test: ["CMD-SHELL", "wget -qS -O /dev/null http://localhost:2019/config"]
-  interval: 30s
-  timeout: 5s
-  retries: 3
+    test: ["CMD-SHELL", "wget -qS -O /dev/null http://localhost/health"]
+...
 ```
 
 #### Redirect http and www
 
-Use simple redirects in caddyfile to test setup
+Test redirects in caddyfile for Hello World test setup
 
 ```caddy
 :80 {
