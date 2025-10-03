@@ -13,9 +13,8 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     healthcheck:
-      test:
-        ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health | grep -q '^OK$'"]
-      interval: 10s
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health"]
+      interval: 3s
       timeout: 5s
       retries: 3
     security_opt:
