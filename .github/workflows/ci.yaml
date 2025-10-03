@@ -24,9 +24,8 @@ jobs:
 
       - name: Deploy infra
         working-directory: /home/simlal/infra
-        # env:
-        #   CADDY_EMAIL: ${{ secrets.CADDY_EMAIL }}
-        run: docker compose -p infra up -d
+        # HACK: force recreate to avoid unhealthy
+        run: docker compose -p infra up -d --force-recreate
 
       - name: Healthcheck caddy
         working-directory: /home/simlal/infra
