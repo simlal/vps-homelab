@@ -6,7 +6,6 @@
   admin :2019
 }
 
-#
 :80 {
     redir https://simlal.dev{uri}
 }
