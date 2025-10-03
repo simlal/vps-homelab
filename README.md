@@ -137,8 +137,11 @@ simlal.dev {
 
 #### Secrets
 
-Managed with GH actions (could also add a .env file in compose and avoid override on rsync).
-Made GH action compatible with `.env` file or secrets in caddy compose stack.
+Managed with GH action, compatible with `.env` file or secrets in caddy compose stack.
+
+#### CI/CD for caddy
+
+Simple GH actions that uses our self-hosted runner to checkout repo, rsync to `~/infra/` and `docker compose up -d`
 
 ### Background services
 
