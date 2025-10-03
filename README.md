@@ -55,39 +55,78 @@ sudo ufw allow 443/tcp
 2. Add `A` record to point to VPS IP (no CloudFlare proxy, just DNS).
 3. Add `CNAME` record for `www` to point to root domain (no CloudFlare proxy, just DNS).
 
+### GitHub Actions Runner
+
+Install a self-hosted GitHub Actions runner on the VPS to run CI/CD pipelines for deploying apps.
+Follow GH instructions with install at `~/actions-runner` and run as a systemd service with
+
+```bash
+./svc.sh install
+./svc.sh start
+
+# Check status
+sudo systemctl status actions.runner.<runner_name>.service
+```
+
+Will use this to build and deploy apps to the VPS.
+
+### Setup CRON docker system prune
+
+Set up a cron job to run `docker system prune -f` weekly to clean up unused docker resources.
+
+```bash
+crontab -e
+# Add the following line to run every Sunday at 3am
+0 3 * * 0 docker image prune -a -f
+```
+
 ## Structure
 
-- Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share. Stored in `~/infra/caddy/`
+VPS home directory structure from a non-root but sudo user:
+
+- Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share.
+Stored in `~/infra` for volume mounts.
+- Kuma for service mesh and observability. Part of caddy compose stack.
 - Other apps in `~/apps/`. Will refer to caddy network for reverse proxying.
 - Tools in `~/tools/`
 - etc.
 
-### Caddy healthcheck and restart
+### Caddy
 
-Docker compose file for caddy with a healthcheck and restart policy in `~/infra/caddy/docker-compose.yml`
+For testing, we can create a deploy key in GitHub, clone the repo to `~/infra_test/` and run caddy from there.
+
+Later we use a CI/CD pipeline to deploy caddy config changes from GitHub Actions using our self-hosted runner.
+
+#### caddy network
+
+First create a docker network for caddy and other apps to share:
+
+```bash
+docker network create caddy_net
+```
+
+#### admin & healthcheck
+
+Use caddy admin endpoint for healthcheck and restart if needed.
 
 ```yaml
-# Since caddy img does not have curl
+# With admin enabled
 healthcheck:
-  test: ["CMD-SHELL", "wget -q -O - http://localhost/health | grep -q 'OK'"]
+  test: ["CMD-SHELL", "wget -qS -O /dev/null http://localhost:2019/config"]
+  interval: 30s
+  timeout: 5s
+  retries: 3
 ```
 
+#### Redirect http and www
+
+Use simple redirects in caddyfile to test setup
+
 ```caddy
-# Port 80: healthcheck + redirect
 :80 {
-    respond /health "OK" 200
+    redir https://simlal.dev{uri}
 }
-```
-
-Verify its working outside the vps with `curl http://simlal.dev/health`
-
-### Redirect http and www
-
-Use simple redirects in caddyfile:
-
-```caddy
-:80 {
-    respond /health "OK" 200
+www.simlal.dev {
     redir https://simlal.dev{uri} permanent
 }
 simlal.dev {
@@ -95,6 +134,16 @@ simlal.dev {
     respond "Hello, world!"
 }
 ```
+
+#### Secrets
+
+Managed with GH actions (could also add a .env file in compose and avoid override on rsync).
+Made GH action compatible with `.env` file or secrets in caddy compose stack.
+
+### Background services
+
+- `actions.runner.<runner_name>.service` → self-hosted GitHub Actions runner installed as a systemd service (installed at `~/actions-runner`)
+- `cron` → weekly docker image prune
 
 ## Apps
 
