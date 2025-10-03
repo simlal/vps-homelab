@@ -14,16 +14,16 @@ services:
       - caddy_config:/config
     healthcheck:
       test:
-        ["CMD-SHELL", "wget -qS -O /dev/null http://127.0.0.1/health || exit 1"]
-      interval: 30s
+        ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health | grep -q '^OK$'"]
+      interval: 10s
       timeout: 5s
       retries: 3
     security_opt:
       - no-new-privileges:true
     tmpfs:
       - /tmp
-    environment:
-      - CADDY_EMAIL=${CADDY_EMAIL}
+    env_file:
+      - .env
     networks:
       - caddy_net
 

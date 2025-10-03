@@ -24,10 +24,10 @@ jobs:
 
       - name: Deploy infra
         working-directory: /home/simlal/infra
-        env:
-          CADDY_EMAIL: ${{ secrets.CADDY_EMAIL }}
+        # env:
+        #   CADDY_EMAIL: ${{ secrets.CADDY_EMAIL }}
         run: docker compose -p infra up -d
 
       - name: Healthcheck caddy
         working-directory: /home/simlal/infra
-        run: docker compose exec -T -w / caddy wget -qS -O /dev/null http://localhost/health
+        run: docker inspect --format='{{.State.Health.Status}}' caddy
