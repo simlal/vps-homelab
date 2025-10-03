@@ -1,21 +1,21 @@
 {
-  # ACME account email for certificate notices
-  email {env.CADDY_EMAIL}
-  admin :2019
+	# ACME account email for certificate notices 
+	email {env.CADDY_EMAIL}
+	admin :2019
 }
 
 :80 {
-    @health {
-        path /health
-    }
-    respond @health "OK" 200
-    redir https://simlal.dev{uri}
+	@health {
+		path /health
+	}
+	respond @health "OK" 200
+	redir https://simlal.dev{uri}
 }
 
 www.simlal.dev {
-    redir https://simlal.dev{uri} permanent
+	redir https://simlal.dev{uri} permanent
 }
 
 simlal.dev {
-    respond "Hello, world!"
+	respond "Hello, world!"
 }
