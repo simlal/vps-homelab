@@ -5,6 +5,7 @@
 }
 
 :80 {
+    respond /health "OK" 200
     redir https://simlal.dev{uri}
 }
 
@@ -13,6 +14,5 @@ www.simlal.dev {
 }
 
 simlal.dev {
-    respond /health "HEALTHY" 200
     respond "Hello, world!"
 }
