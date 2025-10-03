@@ -17,7 +17,9 @@ jobs:
       - name: Sync repo into live dir
         run: |
           echo Synching temp runner git checkout @ ref to '~/infra' dir...
-          rsync -a --delete ${{ github.workspace }}/ /home/simlal/infra/
+          rsync -avz --delete \
+            --exclude='.env' \
+            ${{ github.workspace }}/ /home/simlal/infra/
 
       - name: Deploy infra
         env:
