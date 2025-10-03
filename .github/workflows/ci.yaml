@@ -7,26 +7,24 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: /home/simlal/infra
+
 jobs:
   build-deploy:
     runs-on: [self-hosted, linux]
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Sync repo into live dir
-        run: |
-          echo Synching temp runner git checkout @ ref to '~/infra' dir...
-          rsync -avz --delete \
-            --exclude='.env' \
-            ${{ github.workspace }}/ /home/simlal/infra/
+        # Needed to change runner's default temp _work/
+        with:
+          path: /home/simlal/infra
 
       - name: Deploy infra
         env:
           CADDY_EMAIL: ${{ secrets.CADDY_EMAIL }}
-        run: |
-          cd /home/simlal/infra
-          docker compose up -d
+        run: docker compose up -d
 
       - name: Healthcheck caddy
-        run: docker exec caddy wget -qS -O /dev/null http://localhost:2019/config
+        run: docker compose exec -T caddy wget -qS -O /dev/null http://localhost:2019/config
