@@ -16,16 +16,19 @@ jobs:
         with:
           path: infra
 
-      - name: Sync repo to persistent infra dir (preserve .env)
+      - name: Sync repo to persistent infra dir (preserve data and .env)
         run: |
           rsync -a --delete \
             --exclude '.env' \
+            --exclude 'kuma-data' \
+            --exclude 'caddy_data' \
+            --exclude 'caddy_config' \
+            --exclude 'site' \
             infra/ /home/simlal/infra/
 
       - name: Deploy infra
         working-directory: /home/simlal/infra
-        # HACK: force recreate to avoid unhealthy
-        run: docker compose -p infra up -d --force-recreate
+        run: docker compose -p infra up -d
 
       - name: Healthcheck caddy
         working-directory: /home/simlal/infra
