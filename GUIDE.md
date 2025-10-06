@@ -6,7 +6,8 @@ Personal notes as a reminder for myself if I need to set up a new VPS with caddy
 
 ## Prerequisites
 
-Not using ansible because I want to keep VPS bootstrapping as simple as possible. This is a guide for me if need to set up a new VPS.
+Manual setup of a new VPS. No need for ansible, terraform. Could later use
+cloud-init for initial setup.
 
 ### Security
 
@@ -34,6 +35,13 @@ sudo ufw allow $PORT_NUMBER/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 ```
+
+#### Setup tailscale
+
+1. Install tailscale on VPS and local machine
+2. Authenticate with GH
+
+Test it with curl 100.x.x.x or ssh-ing with tailscale IP
 
 ### Install docker compose (since everything is containerized)
 
@@ -78,6 +86,15 @@ Set up a cron job to run `docker system prune -f` weekly to clean up unused dock
 crontab -e
 # Add the following line to run every Sunday at 3am
 0 3 * * 0 docker image prune -a -f
+
+```
+
+### Caddy network
+
+First create a docker network for caddy and other apps to share:
+
+```bash
+docker network create caddy_net
 ```
 
 ## Structure
@@ -97,14 +114,6 @@ For testing, we can create a deploy key in GitHub, clone the repo to `~/infra_te
 
 Later we use a CI/CD pipeline to deploy caddy config changes from GitHub Actions using our self-hosted runner.
 
-#### caddy network
-
-First create a docker network for caddy and other apps to share:
-
-```bash
-docker network create caddy_net
-```
-
 #### admin & healthcheck
 
 Simple healthcheck endpoint to monitor caddy status.
@@ -121,19 +130,19 @@ Test redirects in caddyfile for Hello World test setup
 
 ```caddy
 :80 {
-	@health {
-		path /health
-	}
-	respond @health "OK" 200
-	redir https://simlal.dev{uri}
+ @health {
+  path /health
+ }
+ respond @health "OK" 200
+ redir https://simlal.dev{uri}
 }
 
 www.simlal.dev {
-	redir https://simlal.dev{uri} permanent
+ redir https://simlal.dev{uri} permanent
 }
 
 simlal.dev {
-	respond "Hello, world!"
+ respond "Hello, world!"
 }
 ```
 
