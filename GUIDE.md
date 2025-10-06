@@ -2,7 +2,7 @@
 
 Personal homelab sandbox running on a VPS.
 
-This README is mostly personal notes as a reminder for myself if I need to set up a new VPS with caddy as a reverse proxy and dockerized apps.
+Personal notes as a reminder for myself if I need to set up a new VPS with caddy as a reverse proxy and dockerized apps.
 
 ## Prerequisites
 
@@ -111,7 +111,7 @@ Simple healthcheck endpoint to monitor caddy status.
 
 ```yaml
 healthcheck:
-    test: ["CMD-SHELL", "wget -qS -O /dev/null http://localhost/health"]
+    test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health"]
 ...
 ```
 
@@ -121,14 +121,19 @@ Test redirects in caddyfile for Hello World test setup
 
 ```caddy
 :80 {
-    redir https://simlal.dev{uri}
+	@health {
+		path /health
+	}
+	respond @health "OK" 200
+	redir https://simlal.dev{uri}
 }
+
 www.simlal.dev {
-    redir https://simlal.dev{uri} permanent
+	redir https://simlal.dev{uri} permanent
 }
+
 simlal.dev {
-    respond /health "HEALTHY" 200
-    respond "Hello, world!"
+	respond "Hello, world!"
 }
 ```
 
