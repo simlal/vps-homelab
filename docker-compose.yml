@@ -26,6 +26,17 @@ services:
     networks:
       - caddy_net
 
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: kuma
+    volumes:
+      - ./kuma-data:/app/data
+    networks:
+      - caddy_net
+    ports:
+      - "${TAILSCALE_IP}:3001:3001" # Only accessible on tailnet + via subdomain on Caddyfile
+    restart: unless-stopped
+
 volumes:
   caddy_data:
   caddy_config:
