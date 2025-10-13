@@ -103,7 +103,7 @@ VPS home directory structure from a non-root but sudo user:
 
 - Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share.
 Stored in `~/infra` for volume mounts.
-- Kuma for service mesh and observability. Part of caddy compose stack.
+- Kuma for service mesh and observability. Part of caddy compose stack. Only exposed via Tailscale IP/MagicDNS.
 - Other apps in `~/apps/`. Will refer to caddy network for reverse proxying.
 - Tools in `~/tools/`
 - etc.

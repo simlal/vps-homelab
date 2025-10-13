@@ -1,5 +1,5 @@
 {
-	# ACME account email for certificate notices 
+	# ACME account email for certificate notices
 	email {env.CADDY_EMAIL}
 	admin :2019
 }
@@ -18,4 +18,8 @@ www.simlal.dev {
 
 simlal.dev {
 	respond "Hello, world!"
+}
+
+kuma.simlal.dev {
+	reverse_proxy kuma:3001
 }

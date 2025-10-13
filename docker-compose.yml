@@ -31,10 +31,12 @@ services:
     container_name: kuma
     volumes:
       - ./kuma-data:/app/data
+      - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - caddy_net
     ports:
-      - "${TAILSCALE_IP}:3001:3001" # Only accessible on tailnet + via subdomain on Caddyfile
+      # - "${TAILSCALE_IP}:3001:3001" # Only accessible on tailnet for setup via http
+      - "3001:3001"
     restart: unless-stopped
 
 volumes:
