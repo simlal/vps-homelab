@@ -1,6 +1,6 @@
 # simlal.dev VPS Homelab
 
-  My VPS homelab setup with simple docker-compose stacks with Caddy as a reverse proxy.
+  My VPS homelab setup with simple docker-compose stacks and Caddy as a reverse proxy & https cert manager.
 
 ## Setup
 
@@ -18,7 +18,7 @@ Structure of VPS home directory from a non-root but sudo user:
 
 - Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share.
 - GH Actions runners on VPS for CI/CD (self-hosted runners as systemd services)
-- Kuma for observability. Accessible via Tailscale OR kuma.simlal.dev reverse proxied by Caddy.
+- Kuma for observability. Accessible via Tailscale OR `kuma.simlal.dev`
 - TODO...
 
 ### Apps
@@ -29,8 +29,11 @@ TODO
 
 Using Kuma service mesh for observability. Accessible via `kuma.simlal.dev` reverse proxied by Caddy.
 
-Simple monitors for now:
+### Container monitoring
+
+Uptime Kuma dashboard for container monitoring.
 
 - Main healthcheck `simlal.dev/health`
+- Static site healthcheck `healthcheck.simlal.dev`
 - Caddy container service
 - ...

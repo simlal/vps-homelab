@@ -20,6 +20,13 @@ simlal.dev {
 	respond "Hello, world!"
 }
 
+# Observability
 kuma.simlal.dev {
 	reverse_proxy kuma:3001
+}
+
+# Healthcheck
+health.simlal.dev {
+	root * /serv/healthcheck
+	file_server
 }

@@ -118,6 +118,8 @@ Later we use a CI/CD pipeline to deploy caddy config changes from GitHub Actions
 
 Simple healthcheck endpoint to monitor caddy status.
 
+A static healthcheck endpoint is also served at `healthcheck.simlal.dev` which returns a simple `OK` from a file in the `site` directory. This provides a simple way to monitor the status of the Caddy server.
+
 ```yaml
 healthcheck:
     test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health"]
