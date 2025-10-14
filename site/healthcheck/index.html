@@ -1,2 +1,110 @@
-OK
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status</title>
+    <style>
+        :root {
+            --bg-color-light: #f8f9fa;
+            --text-color-light: #212529;
+            --card-bg-light: #ffffff;
+            --border-color-light: #dee2e6;
+            --status-ok-light: #28a745;
+            --text-muted-light: #6c757d;
 
+            --bg-color-dark: #121212;
+            --text-color-dark: #e9ecef;
+            --card-bg-dark: #1e1e1e;
+            --border-color-dark: #495057;
+            --status-ok-dark: #3ddc62;
+            --text-muted-dark: #adb5bd;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--bg-color-dark);
+                --text-color: var(--text-color-dark);
+                --card-bg: var(--card-bg-dark);
+                --border-color: var(--border-color-dark);
+                --status-ok: var(--status-ok-dark);
+                --text-muted: var(--text-muted-dark);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: var(--bg-color-light);
+                --text-color: var(--text-color-light);
+                --card-bg: var(--card-bg-light);
+                --border-color: var(--border-color-light);
+                --status-ok: var(--status-ok-light);
+                --text-muted: var(--text-muted-light);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .status-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .status-message {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--status-ok);
+            margin: 1rem 0;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="status-card">
+        <h1>Simlal VPS Homelab Status</h1>
+        <p class="status-message">OK</p>
+        <p class="timestamp">Last updated: <span id="last-updated"></span></p>
+    </div>
+
+    <script>
+        function updateTimestamp() {
+            const now = new Date();
+            const timestampEl = document.getElementById('last-updated');
+            if (timestampEl) {
+                timestampEl.textContent = now.toUTCString();
+            }
+        }
+        updateTimestamp();
+    </script>
+
+</body>
+</html>
