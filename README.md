@@ -27,13 +27,10 @@ TODO
 
 ## Observability
 
-Using Kuma service mesh for observability. Accessible via `kuma.simlal.dev` reverse proxied by Caddy.
-
 ### Container monitoring
 
-Uptime Kuma dashboard for container monitoring.
+Using Kuma service mesh for observability. Accessible via <a href="https://kuma.simlal.dev/">kuma.simlal.dev</a> reverse proxied by Caddy.
 
-- Main healthcheck `simlal.dev/health`
-- Static site healthcheck `healthcheck.simlal.dev`
-- Caddy container service
-- ...
+### Caddy static file healthcheck
+
+Caddy serves a static file at `healthcheck` subdomain: <a href="http://healthcheck.simlal.dev">healthcheck.simlal.dev</a>
