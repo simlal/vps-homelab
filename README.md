@@ -8,8 +8,29 @@ See `GUIDE.md` for detailed setup instructions and security considerations.
 
 ## Architecture
 
+Structure of VPS home directory from a non-root but sudo user:
+
+- `~/infra/` - Caddy and Kuma docker-compose stacks
+- `~/apps/` - Other apps
+- `~/tools/` - Other tools
+
+### Infra
+
 - Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share.
 - GH Actions runners on VPS for CI/CD (self-hosted runners as systemd services)
-- Kuma for observability. Accessible only via Tailscale IP/MagicDNS
-- TODO
--
+- Kuma for observability. Accessible via Tailscale OR kuma.simlal.dev reverse proxied by Caddy.
+- TODO...
+
+### Apps
+
+TODO
+
+## Observability
+
+Using Kuma service mesh for observability. Accessible via `kuma.simlal.dev` reverse proxied by Caddy.
+
+Simple monitors for now:
+
+- Main healthcheck `simlal.dev/health`
+- Caddy container service
+- ...

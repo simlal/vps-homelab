@@ -154,6 +154,17 @@ Managed with GH action, compatible with `.env` file or secrets in caddy compose 
 
 Simple GH actions that uses our self-hosted runner to checkout repo, rsync to `~/infra/` and `docker compose up -d`
 
+### Kuma for observability
+
+Deploy kuma as part of caddy compose stack. Only exposed via Tailscale IP/MagicDNS for setup an admin user inside Tailscale tunnel, then access via caddy reverse proxy.
+
+Expose `3001:3001` in compose and add a `kuma.simlal.dev` Caddy reverse proxy entry.
+
+Some monitors to setup later:
+
+- Main heatcheck endpoint (simlal.dev/health)
+- Containers status
+
 ### Background services
 
 - `actions.runner.<runner_name>.service` → self-hosted GitHub Actions runner installed as a systemd service (installed at `~/actions-runner`)
