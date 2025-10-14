@@ -23,7 +23,7 @@ jobs:
             --exclude 'kuma-data' \
             --exclude 'caddy_data' \
             --exclude 'caddy_config' \
-            --exclude 'site' \
+            --exclude '/site/*' \
             infra/ /home/simlal/infra/
 
       - name: Deploy infra

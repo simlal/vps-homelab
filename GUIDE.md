@@ -114,6 +114,15 @@ For testing, we can create a deploy key in GitHub, clone the repo to `~/infra_te
 
 Later we use a CI/CD pipeline to deploy caddy config changes from GitHub Actions using our self-hosted runner.
 
+#### Add new subdomains (CloudFlare) reverse proxied by caddy
+
+1. Add a new A record for the subdomain in CloudFlare DNS settings, pointing to the VPS IP address. No CloudFlare proxy, just DNS.
+
+2. Add a new Caddy reverse proxy entry in the Caddyfile for the subdomain.
+3. Restart the Caddy container to apply the changes.
+
+To test a new record made in CloudFlare DNS, use `dig` or `nslookup` to verify the DNS propagation.
+
 #### admin & healthcheck
 
 Simple healthcheck endpoint to monitor caddy status.
