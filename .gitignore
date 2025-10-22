@@ -2,6 +2,9 @@
 infra/caddy/caddy_data/
 infra/caddy/caddy_config/
 
+# kuma uptime db
+infra/kuma-data/
+
 # Logs
 *.log
 
