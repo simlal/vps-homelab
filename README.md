@@ -48,4 +48,15 @@ Caddy serves a static file at `healthcheck` subdomain:
 
 TODO: Use Kuma alerts to send notifications to email/Slack/etc.
 
-## Adding
+## GitHub Actions CI/CD
+
+Using self-hosted GitHub Actions runners on the VPS for CI/CD.
+Push-based model for simplicity (no webhooks or polling).
+
+### Caddy + infra monitoring deployment
+
+All stacks are deployed via GitHub Actions workflows in this repo.
+
+### Apps deployment
+
+Similar push-based GitHub Actions workflows for each app repo to deploy to VPS.
