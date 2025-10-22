@@ -27,6 +27,6 @@ kuma.simlal.dev {
 
 # Healthcheck
 healthcheck.simlal.dev {
-	root * /serv/healthcheck
+	root * /srv/healthcheck
 	file_server
 }
