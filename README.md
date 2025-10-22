@@ -46,7 +46,10 @@ Caddy serves a static file at `healthcheck` subdomain:
 
 ### Notifications
 
-TODO: Use Kuma alerts to send notifications to email/Slack/etc.
+Configure SMTP alerts in Kuma to send email notifications for each service.
+
+Example email subject when stopping the Caddy container:
+`Homelab (main healthcheck - https://simlal.dev/health): 🔴 Down`
 
 ## GitHub Actions CI/CD
 
