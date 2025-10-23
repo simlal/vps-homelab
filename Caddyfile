@@ -17,7 +17,13 @@ www.simlal.dev {
 }
 
 simlal.dev {
-	respond "Hello, world!"
+	@health {
+		path /health
+	}
+	respond @health "OK" 200
+
+	# NOTE: Redirect GitHub repo
+	redir https://github.com/simlal/vps-homelab permanent
 }
 
 # Observability
@@ -29,4 +35,9 @@ kuma.simlal.dev {
 healthcheck.simlal.dev {
 	root * /srv/healthcheck
 	file_server
+}
+
+# Curl-able cv next app
+curl-cv.simlal.dev {
+	reverse_proxy curl-cv:3000
 }
