@@ -20,12 +20,11 @@ Structure of VPS home directory from a non-root but sudo user:
 - Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share.
 - GH Actions runners on VPS for CI/CD (self-hosted runners as systemd services)
 - Kuma for observability. Accessible via Tailscale net OR `kuma.simlal.dev`
-- TODO...
 
 ### Apps
 
 - Static healthcheck: <a href="https://healthcheck.simlal.dev">healthcheck.simlal.dev</a>
-- `curl`-able CV: TODO...
+- `curl`-able CV (Next): <a href="https://curl-cv.simlal.dev">curl-cv.simlal.dev</a>
 - ...
 
 ## Observability
