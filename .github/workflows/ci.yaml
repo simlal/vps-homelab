@@ -27,7 +27,7 @@ jobs:
 
       - name: Deploy infra
         working-directory: /home/simlal/infra
-        run: docker compose -p infra up -d
+        run: docker compose -p infra up -d --force-recreate
 
       - name: Healthcheck caddy
         working-directory: /home/simlal/infra
