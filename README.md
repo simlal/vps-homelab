@@ -13,16 +13,17 @@ Structure of VPS home directory from a non-root but sudo user:
 - `~/infra/` - Caddy and Kuma docker-compose stacks
 - `~/apps/` - Other apps
 - `~/tools/` - Other tools
-- `~/actions-runner/` - Self-hosted GitHub Actions runner as a systemd service
+- `~/actions-runners/` - Self-hosted GitHub Actions runners as a systemd service
 
 ### Infra
 
 - Caddy as a reverse proxy and cert manager. Create a single caddy network for all containers to share.
-- GH Actions runners on VPS for CI/CD (self-hosted runners as systemd services)
+- GH Actions runners on VPS for CI/CD (self-hosted runners as systemd services). One runner for infra, one for each app repo.
 - Kuma for observability. Accessible via Tailscale net OR `kuma.simlal.dev`
 
 ### Apps
 
+- Redirect here: <a href="https://simlal.dev">simlal.dev</a> (Recursion!)
 - Static healthcheck: <a href="https://healthcheck.simlal.dev">healthcheck.simlal.dev</a>
 - `curl`-able CV (Next): <a href="https://curl-cv.simlal.dev">curl-cv.simlal.dev</a>
 - ...
@@ -54,6 +55,10 @@ Example email subject when stopping the Caddy container:
 
 Using self-hosted GitHub Actions runners on the VPS for CI/CD.
 Push-based model for simplicity (no webhooks or polling).
+
+### Runners
+
+Repo level self-hosted runners as systemd services on the VPS.
 
 ### Caddy + infra monitoring deployment
 
